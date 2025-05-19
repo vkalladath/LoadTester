@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Tester Dashboard</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        .chart-container {
+            width: 80%;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Load Tester Dashboard</h1>
+
+    <div class="chart-container">
+        <h2>Requests Per Second</h2>
+        <canvas id="requestsChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>Bytes Per Second</h2>
+        <canvas id="bytesChart"></canvas>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
