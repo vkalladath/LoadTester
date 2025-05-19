@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function createChart(ctx, title, label, borderColor) {
         return new Chart(ctx, {
             type: 'line',
-             {
+            data: { // Added 'data' object
                 labels: [], // Timestamps or time strings
                 datasets: [{
                     label: label,
-                     [], // Metric values
+                     [], // Added 'data' key
                     borderColor: borderColor,
                     borderWidth: 1,
                     fill: false,
@@ -62,7 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
                              title: function(tooltipItems) {
                                  const item = tooltipItems[0];
                                  const timestamp = item.parsed.x;
-                                 const startTime = requestsChart ? requestsChart.data.labels[0] : Date.now();
+                                 // Use the first timestamp in the data as the start time reference
+                                 const startTime = requestsChart.data.labels.length > 0 ? requestsChart.data.labels[0] : Date.now();
                                  const secondsElapsed = ((timestamp - startTime) / 1000).toFixed(1);
                                  return `Time: ${secondsElapsed}s`;
                              },
