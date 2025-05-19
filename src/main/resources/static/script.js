@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function createChart(ctx, title, label, borderColor) {
         return new Chart(ctx, {
             type: 'line',
-            data: { // Added 'data' object
-                labels: [], // Timestamps or time strings
+             { // Added 'data' object
+                labels: [], // Timestamps or time strings (used for x-axis in linear scale)
                 datasets: [{
                     label: label,
-                     [], // Added 'data' key
+                     [], // Added 'data' key - This holds the actual metric values
                     borderColor: borderColor,
                     borderWidth: 1,
                     fill: false,
@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         ticks: {
                              callback: function(value, index, values) {
                                 // Display time relative to the start
-                                const startTime = requestsChart ? requestsChart.data.labels[0] : Date.now();
+                                // Use the first timestamp in the data as the start time reference
+                                const startTime = requestsChart && requestsChart.data.labels.length > 0 ? requestsChart.data.labels[0] : Date.now();
                                 return ((value - startTime) / 1000).toFixed(0);
                              }
                         }
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                  const item = tooltipItems[0];
                                  const timestamp = item.parsed.x;
                                  // Use the first timestamp in the data as the start time reference
-                                 const startTime = requestsChart.data.labels.length > 0 ? requestsChart.data.labels[0] : Date.now();
+                                 const startTime = requestsChart && requestsChart.data.labels.length > 0 ? requestsChart.data.labels[0] : Date.now();
                                  const secondsElapsed = ((timestamp - startTime) / 1000).toFixed(1);
                                  return `Time: ${secondsElapsed}s`;
                              },
