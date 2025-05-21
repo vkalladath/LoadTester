@@ -24,4 +24,22 @@ public class MetricsController {
         metrics.put("timestamp", (double) System.currentTimeMillis()); // Add timestamp for rate calculation
         return metrics;
     }
+
+    @GetMapping(value = "/metrics", produces = "text/plain; version=0.0.4; charset=utf-8")
+    // This endpoint returns metrics for prometheus to scrape
+    // The content type is set to "text/plain" with Prometheus format
+    public String getMetrics() {
+        StringBuilder sb = new StringBuilder();
+
+        // Format for requestsCounter
+        sb.append("# HELP ").append(MetricService.REQUESTS_METRIC_NAME).append(" ").append(MetricService.REQUESTS_METRIC_DESCRIPTION).append("\n");
+        sb.append("# TYPE ").append(MetricService.REQUESTS_METRIC_NAME).append(" counter\n");
+        sb.append(MetricService.REQUESTS_METRIC_NAME).append(" ").append(metricService.getTotalRequests()).append("\n\n");
+
+        // Format for bytesCounter
+        sb.append("# HELP ").append(MetricService.BYTES_METRIC_NAME).append(" ").append(MetricService.BYTES_METRIC_DESCRIPTION).append("\n");
+        sb.append("# TYPE ").append(MetricService.BYTES_METRIC_NAME).append(" counter\n");
+        sb.append(MetricService.BYTES_METRIC_NAME).append(" ").append(metricService.getTotalBytes()).append("\n");
+        return sb.toString();
+    }
 }

@@ -1,0 +1,6 @@
+com\example\loadtester\web\MetricsController.class
+com\example\loadtester\service\MetricService.class
+com\example\loadtester\service\LoadTestingService.class
+com\example\loadtester\LoadTesterApplication.class
+com\example\loadtester\web\PageController.class
+com\example\loadtester\config\LoadTesterProperties.class

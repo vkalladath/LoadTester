@@ -7,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
@@ -31,7 +34,7 @@ public class LoadTestingService {
         // Configure WebClient with a timeout
         this.webClient = webClientBuilder
                 .baseUrl(properties.getTargetUrl())
-                .responseTimeout(Duration.ofSeconds(10)) // Example timeout
+                //.responseTimeout(Duration.ofSeconds(10)) // Example timeout
                 .build();
     }
 
@@ -62,12 +65,50 @@ public class LoadTestingService {
     }
 
     private void sendRequest() {
+
+            // webClient.get()
+            //     .uri(properties.getTargetUrl())
+            //     .retrieve() // retrieve() is preferred for simple body extraction and default error handling for 4xx/5xx
+            //     .bodyToMono(String.class) // Attempt to convert the response body to String
+            //     .timeout(Duration.ofSeconds(1)) // Overall timeout for the operation, including body retrieval
+            //     .doOnSuccess(responseBody ->{
+            //             metricService.incrementRequests();
+            //             metricService.incrementBytes(responseBody.getBytes().length);
+            //             log.info("Successfully received response from {}. Body length: {}",
+            //                     "uri", responseBody != null ? responseBody.length() : 0);
+            //     }
+            //     )
+            //     .doOnError(WebClientResponseException.class, e -> {
+            //         // HTTP status code errors (4xx or 5xx)
+            //         log.error("HTTP error for {}: Status {}, Body: {}",
+            //                 "uri", e.getStatusCode(), e.getResponseBodyAsString(), e);
+            //     })
+            //     .doOnError(WebClientRequestException.class, e -> {
+            //         // Network errors (connection timeout, unknown host, etc.)
+            //         log.error("Request error for {}: {}", "uri", e.getMessage(), e);
+            //     })
+            //     .doOnError(e -> !(e instanceof WebClientResponseException || e instanceof WebClientRequestException), e -> {
+            //         // Other unexpected errors (e.g., decoding errors, timeout from .timeout() operator)
+            //         log.error("Unexpected error for {}: {}", "uri", e.getMessage(), e);
+            //     })
+            //     .onErrorMap(throwable -> {
+            //         // Map all errors to a RuntimeException
+            //         // This is optional and depends on how you want to handle errors
+            //         return new RuntimeException("Error during request", throwable);
+            //     });
+
         webClient.get()
                 .retrieve()
-                .toEntity(Void.class) // Retrieve as entity to get headers/status without body processing
+                .toEntity(String.class) // Retrieve as entity to get headers/status without body processing
                 .subscribe(
                         responseEntity -> {
                             metricService.incrementRequests();
+                            // Here we assume the response body is empty (Void.class)
+                            // If you expect a body, you can use responseEntity.getBody() to read it
+                            // and measure its size. For example, if the body is a String:
+                            String body = responseEntity.getBody();
+                            long bodySize = body != null ? body.length() : 0;
+                            metricService.incrementBytes(bodySize);
                             long contentLength = responseEntity.getHeaders().getContentLength();
                             if (contentLength > 0) {
                                 metricService.incrementBytes(contentLength);

@@ -7,6 +7,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MetricService {
+    public static final String REQUESTS_METRIC_DESCRIPTION = "Total number of GET requests sent";
+    public static final String BYTES_METRIC_DESCRIPTION = "Total number of bytes received in responses";
+    public static final String REQUESTS_METRIC_NAME = "loadtester_requests_total";  
+    public static final String BYTES_METRIC_NAME = "loadtester_bytes_total";
+
+
+
 
     private final MeterRegistry meterRegistry;
 

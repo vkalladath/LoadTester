@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "LoadTesterApplication",
+            "request": "launch",
+            "mainClass": "com.example.loadtester.LoadTesterApplication",
+            "projectName": "loadtester",
+            "env": {
+                "LOADTESTER_TARGET_URL": "https://jsonplaceholder.typicode.com/todos/1",
+                "LOADTESTER_REQUEST_RATE_PER_SECOND": "1",
+
+            },
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+# Build stage
+FROM maven:3.6.0-jdk-11-slim AS build
+COPY src /home/LoadTester/src
+COPY pom.xml /home/LoadTester
+RUN mvn -f /home/LoadTester/pom.xml clean package
+
+# Package stage
+FROM openjdk:11-jre-slim
+COPY --from=build /home/LoadTester/target/LoadTester-1.0.jar /usr/local/lib/LoadTester.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/usr/local/lib/LoadTester.jar"]
