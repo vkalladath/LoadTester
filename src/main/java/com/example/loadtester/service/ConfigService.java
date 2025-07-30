@@ -1,6 +1,8 @@
 package com.example.loadtester.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.io.InputStream;
 @Service
 public class ConfigService {
 
+    private static final Logger log = LoggerFactory.getLogger(ConfigService.class);
     private RequestConfig requestConfig;
 
     public ConfigService() {
@@ -21,7 +24,7 @@ public class ConfigService {
             requestConfig = mapper.readValue(inputStream, RequestConfig.class);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle error appropriately
+            log.error("Exception in mapping the request body", e);
         }
     }
 

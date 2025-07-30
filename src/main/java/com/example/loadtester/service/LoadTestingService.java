@@ -61,7 +61,6 @@ public class LoadTestingService {
         log.info("Starting load testing on {} at {} requests/second", targetUrl, rate);
 
         // Use a scheduled executor to submit tasks at the desired rate
-        // A thread pool is used to handle multiple concurrent scheduled tasks.
         scheduler = Executors.newScheduledThreadPool(6);
         long intervalMillis = 1000L / rate;
 
