@@ -1,0 +1,10 @@
+{
+  "bodies": {
+    "s3": "{\"bucket\": \"beyla-test\", \"size\": 1024, \"region\": \"us-east-1\"}",
+    "s3Download": "{\"bucket\": \"beyla-test\", \"key\": \"dummy_data_1024kb.txt\", \"region\": \"us-east-1\"}",
+    "s3Delete": "{\"bucket\": \"beyla-test\", \"region\": \"us-east-1\"}",
+    "dynamodb": "{\"table\": \"beyla-test\", \"size\": 256, \"region\": \"us-east-1\"}",
+    "dynamodbGet": "{\"table\": \"beyla-test\", \"region\": \"us-east-1\"}",
+    "dynamodbDelete": "{\"table\": \"beyla-test\", \"region\": \"us-east-1\"}"
+  }
+}
